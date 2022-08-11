@@ -8,12 +8,12 @@
 <body>
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
-        <h2>게시글 목록</h2> </div>
+        <h2  th:text="#{page.boards}">게시글 목록</h2> </div>
     <div class="row">
         <div class="col">
             <button class="btn btn-primary float-end" onclick="location.href='addForm.html'"
                     th:onclick="|location.href='@{/basic/boards/add}'|"
-                    type="button">게시글 등록</button>
+                    type="button"  th:text="#{page.addBoard}">게시글 등록</button>
         </div>
     </div>
     <hr class="my-5">
@@ -21,11 +21,11 @@
         <table class="table">
             <thead>
             <tr>
-                <th>no</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>등록일시</th>
-                <th>수정일시</th>
+                <th th:text="#{label.board.id}">id</th>
+                <th th:text="#{label.board.tittle}">제목</th>
+                <th th:text="#{label.board.name}">작성자</th>
+                <th th:text="#{label.board.created_ts}">등록일시</th>
+                <th th:text="#{label.board.updated_ts}">수정일시</th>
             </tr>
             </thead>
             <tbody>
