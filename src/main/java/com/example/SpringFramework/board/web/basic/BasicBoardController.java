@@ -72,14 +72,14 @@ public class BasicBoardController {
     @PostMapping("/add")
     public String add(@ModelAttribute Board board, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
-
+        //
         //검증 로직
         if(!StringUtils.hasText(board.getTittle())) {
-            bindingResult.addError(new FieldError("board", "tittle", "게시글 제목은 필수 입니다." ));
+            bindingResult.addError(new FieldError("board", "tittle", board.getTittle(), false, new String[]{"required.board.tittle"}, null, null));
         }
 
         if(board.getContent() == null || board.getContent().length() <= 3 ) {
-            bindingResult.addError(new FieldError("board", "content", "내용은 200자 까지 허용합니다." ));
+            bindingResult.addError(new FieldError("board", "content",  board.getContent(), false, new String[]{"range.board.content"}, new Object[]{200}, null ));
         }
 
 
