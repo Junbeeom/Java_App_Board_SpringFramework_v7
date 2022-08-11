@@ -3,15 +3,20 @@ package com.example.SpringFramework.board.web.basic;
 import com.example.SpringFramework.board.domain.board.Board;
 import com.example.SpringFramework.board.repository.MemoryBoardRepository2;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @Controller
 @RequestMapping("/basic/boards")
 @RequiredArgsConstructor // final붙은 생성자 만들어줌.
@@ -61,13 +66,37 @@ public class BasicBoardController {
         return "basic/board";
     }
 
-    //등록 폼
+    //등록 로직
     @PostMapping("/add")
-    public String add(@ModelAttribute Board board, RedirectAttributes redirectAttributes) {
+    public String add(@ModelAttribute Board board, RedirectAttributes redirectAttributes, Model model) {
+
+        //검증 오류 결과를 보관
+        Map<String, String> errors = new HashMap<>();
+
+        //검증 로직
+        if(!StringUtils.hasText(board.getTittle())) {
+            errors.put("tittle", "게시글 제목은 필수 입니다.");
+        }
+
+        if(board.getContent() == null || board.getContent().length() <= 3 ) {
+            errors.put("content", "내용은 200자 까지 허용합니다.");
+        }
+
+
+
+        //검증에 실패하면 다시 입력 폼으로
+        if (!errors.isEmpty()) {
+            log.info("errors = {}", errors);
+            model.addAttribute("errors", errors);
+            return "basic/addForm";
+        }
+
+        //성공로직
         Board createBoard = memoryBoardRepository2.create(board);
         redirectAttributes.addAttribute("boardId", createBoard.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/basic/boards/{boardId}";
+
 
     }
 
@@ -75,7 +104,6 @@ public class BasicBoardController {
     @GetMapping("/{boardId}/edit")
     public String editForm(@PathVariable Long boardId, Model model) {
 
-        System.out.println("너는 언제 호출되니? getMapping");
         Board board = memoryBoardRepository2.findById(boardId).get();
         model.addAttribute("board", board);
         return "basic/editForm";
