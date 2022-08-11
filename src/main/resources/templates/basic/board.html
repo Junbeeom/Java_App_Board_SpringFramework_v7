@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://wwww.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+
+        .container {
+            max-width: 560px;
+        } </style>
+</head>
+<body>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>게시글 상세</h2> </div>
+    <div>
+        <label for="id">상품 ID</label>
+        <input type="text" id="id" name="id" class="form-control" value="1" th:value="${board.id}"readonly>
+    </div>
+
+    <div>
+        <label for="tittle">제목</label>
+        <input type="text" id="tittle" name="tittle" class="form-control" value="1" th:value="${board.tittle}" readonly>
+    </div>
+    <div>
+    <label for="name">작성자</label>
+    <input type="text" id="name" name="name" class="form-control" value="상품A" th:value="${board.name}"readonly> </div>
+    <div>
+        <label for="created_ts">작성일자</label>
+        <input type="text" id="created_ts" name="created_ts" class="form-control" value="10000" th:value="${board.created_ts}"readonly>
+    </div>
+    <div>
+    <label for="content">내용</label>
+    <input type="text" id="content" name="content" class="form-control" value="10" th:value="${board.content}" readonly>
+</div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    th:onclick="|location.href='@{/basic/boards/{boardId}/edit(boardId=${board.id})}'|"
+                    onclick="location.href='sdfsdfsdf'" type="button">게시글 수정</button> </div>
+        <div class="col">
+            <button class="w-100 btn btn-primary btn-lg"
+                    th:onclick="|location.href='@{/basic/boards/{boardId}/delete(boardId=${board.id})}'|"
+                    onclick="location.href='boards.html'" type="button">게시글 삭제</button> </div>
+        <div class="col">
+            <button class="w-100 btn btn-secondary btn-lg"
+                    th:onclick="|location.href='@{/basic/boards}'|"
+                    onclick="location.href='boards.html'" type="button">목록으로</button> </div>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
