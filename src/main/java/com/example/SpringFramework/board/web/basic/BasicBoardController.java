@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -68,26 +70,24 @@ public class BasicBoardController {
 
     //등록 로직
     @PostMapping("/add")
-    public String add(@ModelAttribute Board board, RedirectAttributes redirectAttributes, Model model) {
+    public String add(@ModelAttribute Board board, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
-        //검증 오류 결과를 보관
-        Map<String, String> errors = new HashMap<>();
 
         //검증 로직
         if(!StringUtils.hasText(board.getTittle())) {
-            errors.put("tittle", "게시글 제목은 필수 입니다.");
+            bindingResult.addError(new FieldError("board", "tittle", "게시글 제목은 필수 입니다." ));
         }
 
         if(board.getContent() == null || board.getContent().length() <= 3 ) {
-            errors.put("content", "내용은 200자 까지 허용합니다.");
+            bindingResult.addError(new FieldError("board", "content", "내용은 200자 까지 허용합니다." ));
         }
 
 
 
         //검증에 실패하면 다시 입력 폼으로
-        if (!errors.isEmpty()) {
-            log.info("errors = {}", errors);
-            model.addAttribute("errors", errors);
+        if (bindingResult.hasErrors()) {
+            //같이 넘어감으로 model.attiribute는 생략 가능.
+            log.info("errors={}", bindingResult);
             return "basic/addForm";
         }
 
