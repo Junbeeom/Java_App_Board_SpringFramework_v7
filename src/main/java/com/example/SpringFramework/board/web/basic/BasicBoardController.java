@@ -37,7 +37,8 @@ public class BasicBoardController {
 
     //등록 폼
     @GetMapping("/add")
-    public String addForm() {
+    public String addForm(Model model) {
+        model.addAttribute("board", new Board());
         return "basic/addForm";
     }
 

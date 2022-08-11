@@ -21,18 +21,18 @@
     <!--form을 열때는 get 실제 저장은 post
      같은 url은 비워도됨. th:action="/basic/boards/add가 아닌 th:action-->
 
-    <form action="board.html" th:action method="post">
+    <form action="board.html" th:action th:object="${board}" method="post">
         <div>
             <label for="tittle">제목</label>
-            <input type="text" id="tittle" name="tittle" class="form-control" placeholder="제목을 입력하세요">
+            <input type="text" id="tittle" th:field="*{tittle}" class="form-control" placeholder="제목을 입력하세요">
         </div>
         <div>
             <label for="content">내용</label>
-            <input type="text" id="content" name="content" class="form-control" placeholder="내용을 입력하세요">
+            <input type="text" id="content" th:field="*{content}" class="form-control" placeholder="내용을 입력하세요">
         </div>
         <div>
         <label for="name">작성자</label>
-        <input type="text" id="name" name="name" class="form-control" placeholder="이름을 입력하세요">
+        <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">
         </div>
         <hr class="my-4">
         <div class="row">
