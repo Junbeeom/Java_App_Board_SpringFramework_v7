@@ -1,4 +1,4 @@
-package com.example.SpringFramework.board.repository;
+package com.example.SpringFramework.board.repository.board;
 
 import com.example.SpringFramework.board.domain.board.Board;
 

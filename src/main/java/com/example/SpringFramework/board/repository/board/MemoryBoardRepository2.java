@@ -1,6 +1,7 @@
-package com.example.SpringFramework.board.repository;
+package com.example.SpringFramework.board.repository.board;
 
 import com.example.SpringFramework.board.domain.board.Board;
+import com.example.SpringFramework.board.repository.board.BoardRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class MemoryBoardRepository2 implements BoardRepository{
+public class MemoryBoardRepository2 implements BoardRepository {
 
     private static HashMap<Long, Board> store = new HashMap<>();
     private static long sequence = 0L;

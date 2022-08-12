@@ -1,9 +1,7 @@
 package com.example.SpringFramework.board.web.basic;
 
 import com.example.SpringFramework.board.domain.board.Board;
-import com.example.SpringFramework.board.domain.board.CreateCheck;
-import com.example.SpringFramework.board.domain.board.UpdateCheck;
-import com.example.SpringFramework.board.repository.MemoryBoardRepository2;
+import com.example.SpringFramework.board.repository.board.MemoryBoardRepository2;
 import com.example.SpringFramework.board.web.basic.form.BoardCreateForm;
 import com.example.SpringFramework.board.web.basic.form.BoardUpdateForm;
 import lombok.RequiredArgsConstructor;

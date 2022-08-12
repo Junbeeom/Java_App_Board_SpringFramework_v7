@@ -1,14 +1,12 @@
 package com.example.SpringFramework.board.repository;
 
 import com.example.SpringFramework.board.domain.board.Board;
+import com.example.SpringFramework.board.repository.board.MemoryBoardRepository2;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MemoryBoardRepository2Test {
 
