@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -21,10 +22,11 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/basic/boards")
-@RequiredArgsConstructor // final붙은 생성자 만들어줌.
+@RequiredArgsConstructor // final붙은 생성자 만들어줌. (각각의 생성자가 하나 일 경우.)
 public class BasicBoardController {
 
     private final MemoryBoardRepository2 memoryBoardRepository2;
+    private final BoardValidator boardValidator;
 
     //목록
     @GetMapping
@@ -72,17 +74,8 @@ public class BasicBoardController {
     @PostMapping("/add")
     public String add(@ModelAttribute Board board, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
-        //
-        //검증 로직
-        if(!StringUtils.hasText(board.getTittle())) {
-            bindingResult.addError(new FieldError("board", "tittle", board.getTittle(), false, new String[]{"required.board.tittle"}, null, null));
-        }
-
-        if(board.getContent() == null || board.getContent().length() <= 3 ) {
-            bindingResult.addError(new FieldError("board", "content",  board.getContent(), false, new String[]{"range.board.content"}, new Object[]{200}, null ));
-        }
-
-
+        //검증기
+        boardValidator.validate(board, bindingResult);
 
         //검증에 실패하면 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
