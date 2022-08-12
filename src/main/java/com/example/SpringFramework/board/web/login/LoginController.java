@@ -2,6 +2,7 @@ package com.example.SpringFramework.board.web.login;
 
 import com.example.SpringFramework.board.domain.login.LoginService;
 import com.example.SpringFramework.board.domain.member.Member;
+import com.example.SpringFramework.board.web.SessionConst;
 import com.example.SpringFramework.board.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 @Controller
@@ -31,7 +33,7 @@ public class LoginController {
 
     //실제 로그인 처리
     @PostMapping("/login")
-    public String login(@Validated @ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletResponse response) {
+    public String login(@Validated @ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
         }
@@ -44,20 +46,20 @@ public class LoginController {
         }
 
         //로그인 성공 처리 TODO
+        //세션이 있으면 있는 세션 반환, 없으면 신규 세션을 생성
+        HttpSession session = request.getSession();
+        //세션에 로그인 회원 정보 보관
+        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
-        //세션 관리자를 통해 세션을 생성하고, 회원 데이터 보관
-        sessionManager.createSession(loginMember, response);
-
-        //쿠기에 시간 정보를 주지 않으면 세션 쿠키(브라우저 종료시 모두 종료)
-
-
-        //로그인 되면 home 으로 보냄.
         return "redirect:/";
     }
 
     @PostMapping("/logout")
     public String logout(HttpServletRequest request) {
-        sessionManager.expire(request);
+        HttpSession session = request.getSession(false);
+        if(session != null) {
+            session.invalidate();
+        }
         return "redirect:/";
     }
 }

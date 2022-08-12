@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Slf4j
 @Controller
@@ -27,15 +28,21 @@ public class HomeController {
     @GetMapping("/")
     public String homeLogin(HttpServletRequest request, Model model) {
 
-        //세션 관리자에 저장된 회원 정보 조회
-        Member member = (Member)sessionManager.getSession(request);
-
-        //로그인
-        if(member == null) {
+        HttpSession session = request.getSession(false);
+        if(session == null) {
             return "home";
         }
 
-        model.addAttribute("member", member);
+        Member loginMember = (Member)session.getAttribute(SessionConst.LOGIN_MEMBER);
+
+
+        //세션에 회원 데이터가 없으면 home
+        if(loginMember == null) {
+            return "home";
+        }
+
+        //세션이 유지되면 로그인으로 이동
+        model.addAttribute("member", loginMember);
         return "loginHome";
     }
 
