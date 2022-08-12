@@ -11,6 +11,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -27,6 +29,12 @@ public class BasicBoardController {
 
     private final MemoryBoardRepository2 memoryBoardRepository2;
     private final BoardValidator boardValidator;
+
+    //basicBoardContoller가 호출이 될때 마다 생성된다. 호출되서 검증해준다.
+    @InitBinder
+    public void init(WebDataBinder dataBinder) {
+        dataBinder.addValidators(boardValidator);
+    }
 
     //목록
     @GetMapping
@@ -72,10 +80,13 @@ public class BasicBoardController {
 
     //등록 로직
     @PostMapping("/add")
-    public String add(@ModelAttribute Board board, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public String add(@Validated  @ModelAttribute Board board, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
-        //검증기
-        boardValidator.validate(board, bindingResult);
+        /**
+         *  boardValidator.validate(board, bindingResult); > @Validated로 치환 가능.
+         */
+//        //검증기
+//        boardValidator.validate(board, bindingResult);
 
         //검증에 실패하면 다시 입력 폼으로
         if (bindingResult.hasErrors()) {
