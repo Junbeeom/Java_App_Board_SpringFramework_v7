@@ -1,7 +1,11 @@
 package com.example.SpringFramework.board.web.basic;
 
 import com.example.SpringFramework.board.domain.board.Board;
+import com.example.SpringFramework.board.domain.board.CreateCheck;
+import com.example.SpringFramework.board.domain.board.UpdateCheck;
 import com.example.SpringFramework.board.repository.MemoryBoardRepository2;
+import com.example.SpringFramework.board.web.basic.form.BoardCreateForm;
+import com.example.SpringFramework.board.web.basic.form.BoardUpdateForm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -77,7 +81,7 @@ public class BasicBoardController {
 
     //등록 로직
     @PostMapping("/add")
-    public String add(@Validated  @ModelAttribute Board board, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+    public String add(@Validated  @ModelAttribute("board") BoardCreateForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 
         /**
          *  boardValidator.validate(board, bindingResult); > @Validated로 치환 가능.
@@ -93,7 +97,12 @@ public class BasicBoardController {
         }
 
         //성공로직
-        Board createBoard = memoryBoardRepository2.create(board);
+        Board boardParam = new Board();
+        boardParam.setTittle(form.getTittle());
+        boardParam.setContent(form.getContent());
+        boardParam.setName(form.getName());
+
+        Board createBoard = memoryBoardRepository2.create(boardParam);
         redirectAttributes.addAttribute("boardId", createBoard.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/basic/boards/{boardId}";
@@ -113,9 +122,23 @@ public class BasicBoardController {
 
     //수정
     @PostMapping("/{boardId}/edit")
-    public String edit(@PathVariable Long boardId, @ModelAttribute Board board) {
-        System.out.println("현재 수정 로직 진입");
-        memoryBoardRepository2.update(boardId, board);
+    public String edit(@PathVariable Long boardId, @Validated @ModelAttribute("board") BoardUpdateForm form, BindingResult bindingResult) {
+
+        //검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            //같이 넘어감으로 model.attiribute는 생략 가능.
+            log.info("errors={}", bindingResult);
+            return "basic/editForm";
+        }
+
+        //성공 로직
+        Board boardParam = new Board();
+        boardParam.setId(form.getId());
+        boardParam.setTittle(form.getTittle());
+        boardParam.setContent(form.getContent());
+        boardParam.setName(form.getName());
+
+        memoryBoardRepository2.update(boardId, boardParam);
 
         return "redirect:/basic/boards/{boardId}";
     }

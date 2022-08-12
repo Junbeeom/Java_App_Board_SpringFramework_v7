@@ -8,6 +8,12 @@
 
     .container {
       max-width: 560px;
+    }
+
+    .field-error {
+      border-color: #dc3545;
+      color: #dc3545;
+
     } </style>
 </head>
 <body>
@@ -23,16 +29,25 @@
 
     <div>
       <label for="tittle" th:text="#{label.board.tittle}">제목</label>
-      <input type="text" id="tittle" class="form-control" th:field="*{tittle}">
+      <input type="text" id="tittle" class="form-control" th:field="*{tittle}" th:errorclass="field-error">
+      <div class="field-error" th:errors="*{tittle}">
+        제목 오류
+      </div>
     </div>
 
     <div>
     <label for="content" th:text="#{label.board.content}">내용</label>
-    <input type="text" id="content" class="form-control" th:field="*{content}">
+    <input type="text" id="content" class="form-control" th:field="*{content}" th:errorclass="field-error">
+      <div class="field-error" th:errors="*{content}">
+        내용 오류
+      </div>
   </div>
     <div>
       <label for="name" th:text="#{label.board.name}">이름</label>
-      <input type="text" id="name" class="form-control" th:field="*{name}">
+      <input type="text" id="name" class="form-control" th:field="*{name}" th:errorclass="field-error">
+      <div class="field-error" th:errors="*{name}">
+        내용 오류
+      </div>
     </div>
 
     <hr class="my-4">

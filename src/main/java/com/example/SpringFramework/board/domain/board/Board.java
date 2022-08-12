@@ -10,13 +10,11 @@ import javax.validation.constraints.NotNull;
 
 @Setter @Getter
 public class Board {
+
     private Long id;
 
-    @NotBlank
     private String tittle;
 
-    @NotNull
-    @Length(max = 3)
     private String content;
 
     private String name;
