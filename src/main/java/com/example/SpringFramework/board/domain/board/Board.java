@@ -2,12 +2,23 @@ package com.example.SpringFramework.board.domain.board;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Setter @Getter
 public class Board {
     private Long id;
+
+    @NotBlank
     private String tittle;
+
+    @NotNull
+    @Length(max = 3)
     private String content;
+
     private String name;
     private String created_ts;
     private String updated_ts;

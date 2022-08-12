@@ -4,22 +4,15 @@ import com.example.SpringFramework.board.domain.board.Board;
 import com.example.SpringFramework.board.repository.MemoryBoardRepository2;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Controller
@@ -28,6 +21,8 @@ import java.util.Map;
 public class BasicBoardController {
 
     private final MemoryBoardRepository2 memoryBoardRepository2;
+
+    /**
     private final BoardValidator boardValidator;
 
     //basicBoardContoller가 호출이 될때 마다 생성된다. 호출되서 검증해준다.
@@ -35,6 +30,8 @@ public class BasicBoardController {
     public void init(WebDataBinder dataBinder) {
         dataBinder.addValidators(boardValidator);
     }
+    */
+
 
     //목록
     @GetMapping
