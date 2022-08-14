@@ -2,6 +2,7 @@ package com.example.SpringFramework.board.web;
 
 import com.example.SpringFramework.board.domain.member.Member;
 import com.example.SpringFramework.board.repository.member.MemoryMemberRepository;
+import com.example.SpringFramework.board.web.argumentresolver.Login;
 import com.example.SpringFramework.board.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,8 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String homeLogin(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
 
+    public String homeLogin(@Login Member loginMember, Model model) {
         //세션에 회원 데이터가 없으면 home
         if(loginMember == null) {
             return "home";
