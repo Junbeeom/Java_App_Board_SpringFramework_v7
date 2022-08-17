@@ -2,6 +2,7 @@ package com.example.SpringFramework.board.repository.member;
 
 import com.example.SpringFramework.board.domain.member.Member;
 import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+@Repository
 public class  JdbcMemberRepository implements MemberRepository {
     private final DataSource dataSource;
 
