@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/members")
 public class MemberController {
 
-    private final MemoryMemberRepository memoryMemberRepository;
+    //private final MemoryMemberRepository memoryMemberRepository;
 //
 //    /**
 //     * DI를 지키기 위해서 기존 memoryMemberRepository로 추가 하는것이 아닌 Service > 생성자 주입을 통해서 주입 해주는 방식으로
@@ -26,12 +25,12 @@ public class MemberController {
 //     *
 //     */
 //
-//    private final MemberService memberService;
-//
-//    @Autowired
-//    public MemberController(MemberService memberService) {
-//        this.memberService = memberService;
-//    }
+    private final MemberService memberService;
+
+    @Autowired
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
 
     @GetMapping("/add")
     public String addForm(@ModelAttribute("member") Member member) {
@@ -44,7 +43,7 @@ public class MemberController {
             return "members/addMemberForm";
         }
 
-        memoryMemberRepository.create(member);
+        memberService.join(member);
         return "redirect:/";
 
     }

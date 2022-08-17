@@ -3,12 +3,12 @@ package com.example.SpringFramework.board.service.member;
 import com.example.SpringFramework.board.domain.member.Member;
 import com.example.SpringFramework.board.repository.member.MemberRepository;
 import com.example.SpringFramework.board.repository.member.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
 public class MemberService {
     private final MemberRepository memberRepository;
 
