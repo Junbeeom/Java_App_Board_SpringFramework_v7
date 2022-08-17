@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class JdbcMemberRepository implements MemberRepository {
+public class  JdbcMemberRepository implements MemberRepository {
     private final DataSource dataSource;
 
     public JdbcMemberRepository(DataSource dataSource) {
@@ -120,7 +120,7 @@ public class JdbcMemberRepository implements MemberRepository {
 
     @Override
     public Optional<Member> findByLoginId(String id) {
-        String sql = "select * from member where user_no = ?";
+        String sql = "select * from member where id = ?";
 
         Connection conn = null;
         PreparedStatement pstmt = null;

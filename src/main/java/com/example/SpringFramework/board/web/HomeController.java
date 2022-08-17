@@ -2,6 +2,7 @@ package com.example.SpringFramework.board.web;
 
 import com.example.SpringFramework.board.domain.member.Member;
 import com.example.SpringFramework.board.repository.member.MemoryMemberRepository;
+import com.example.SpringFramework.board.service.member.MemberService;
 import com.example.SpringFramework.board.web.argumentresolver.Login;
 import com.example.SpringFramework.board.web.session.SessionManager;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,10 @@ import javax.servlet.http.HttpSession;
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final MemoryMemberRepository memoryMemberRepository;
+    //private final MemoryMemberRepository memoryMemberRepository;
+    private final MemberService memberService;
     private final SessionManager sessionManager;
+
 
     //@GetMapping("/")
     public String home() {
