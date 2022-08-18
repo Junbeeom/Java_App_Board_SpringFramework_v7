@@ -9,7 +9,6 @@ public interface BoardRepository {
     Board create(Board board);
     //id로 게시글 찾기
     Optional<Board> findById(long id);
-
     //name로 게시글 찾기
     Optional<Board> findByName(String name);
     List<Board> readAll();

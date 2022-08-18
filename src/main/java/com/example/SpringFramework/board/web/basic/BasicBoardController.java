@@ -1,7 +1,9 @@
 package com.example.SpringFramework.board.web.basic;
 
 import com.example.SpringFramework.board.domain.board.Board;
+import com.example.SpringFramework.board.repository.board.BoardRepository;
 import com.example.SpringFramework.board.repository.board.MemoryBoardRepository2;
+import com.example.SpringFramework.board.service.Board.BoardService;
 import com.example.SpringFramework.board.web.basic.form.BoardCreateForm;
 import com.example.SpringFramework.board.web.basic.form.BoardUpdateForm;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor // final붙은 생성자 만들어줌. (각각의 생성자가 하나 일 경우.)
 public class BasicBoardController {
 
-    private final MemoryBoardRepository2 memoryBoardRepository2;
+    private final BoardService boardService;
 
     /**
     private final BoardValidator boardValidator;
@@ -38,7 +40,7 @@ public class BasicBoardController {
     //목록
     @GetMapping
     public String boards(Model model) {
-        List<Board> boards = memoryBoardRepository2.readAll();
+        List<Board> boards = boardService.readAll();
         model.addAttribute("boards", boards);
         return "basic/boards";
     }
@@ -46,7 +48,7 @@ public class BasicBoardController {
     //상품 상세
     @GetMapping("/{boardId}")
     public String board(@PathVariable long boardId, Model model) {
-        Board board = memoryBoardRepository2.findById(boardId).get();
+        Board board = boardService.findById(boardId).get();
         model.addAttribute("board", board);
         return "basic/board";
     }
@@ -69,7 +71,7 @@ public class BasicBoardController {
         board.setContent(boardContent);
         board.setName(boardName);
 
-        memoryBoardRepository2.create(board);
+        boardService.create(board);
 
         //상품을 저장하고 나서 상세 화면을 보여주기 위해서
         //뷰를 직접 만들지 않고 board.html에 다 만들어 놨기 때문에 뿌리기만 하면 됨.
@@ -100,7 +102,7 @@ public class BasicBoardController {
         boardParam.setContent(form.getContent());
         boardParam.setName(form.getName());
 
-        Board createBoard = memoryBoardRepository2.create(boardParam);
+        Board createBoard = boardService.create(boardParam);
         redirectAttributes.addAttribute("boardId", createBoard.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/basic/boards/{boardId}";
@@ -112,7 +114,7 @@ public class BasicBoardController {
     @GetMapping("/{boardId}/edit")
     public String editForm(@PathVariable Long boardId, Model model) {
 
-        Board board = memoryBoardRepository2.findById(boardId).get();
+        Board board = boardService.findById(boardId).get();
         model.addAttribute("board", board);
         return "basic/editForm";
 
@@ -136,7 +138,7 @@ public class BasicBoardController {
         boardParam.setContent(form.getContent());
         boardParam.setName(form.getName());
 
-        memoryBoardRepository2.update(boardId, boardParam);
+        boardService.update(boardId, boardParam);
 
         return "redirect:/basic/boards/{boardId}";
     }
@@ -147,7 +149,7 @@ public class BasicBoardController {
 
 
         System.out.println(boardId);
-        memoryBoardRepository2.delete(boardId);
+        boardService.delete(boardId);
 
         return "redirect:/basic/boards";
     }
@@ -160,9 +162,9 @@ public class BasicBoardController {
      */
     @PostConstruct
     public void init() {
-        memoryBoardRepository2.create(new Board("제목", "내용", "이름",
+        boardService.create(new Board("제목", "내용", "이름",
                 "없음", "없음", "없음"));
-        memoryBoardRepository2.create(new Board("제목2", "내용2", "이름2",
+        boardService.create(new Board("제목2", "내용2", "이름2",
                 "없음2", "없음2", "없음2"));
     }
 
