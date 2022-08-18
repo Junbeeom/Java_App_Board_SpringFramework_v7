@@ -33,37 +33,37 @@
         <div>
             <label for="loginId">로그인 ID</label>
             <input type="text" id="loginId" th:field="*{id}" class="form-control"
-                   th:errorclass="field-error">
+                   th:errorclass="field-error" placeholder="=아이디를 입력하세요">
             <div class="field-error" th:errors="*{id}" />
         </div>
         <div>
             <label for="password">비밀번호</label>
             <input type="password" id="password" th:field="*{pw}" class="form-control"
-                   th:errorclass="field-error">
+                   th:errorclass="field-error" placeholder="=패스워드를 입력하세요">
             <div class="field-error" th:errors="*{pw}" />
         </div>
         <div>
             <label for="name">이름</label>
             <input type="text" id="name" th:field="*{name}" class="form-control"
-                   th:errorclass="field-error">
+                   th:errorclass="field-error" placeholder="=이름을 입력하세요">
             <div class="field-error" th:errors="*{name}" />
         </div>
         <div>
             <label for="name">생년월일</label>
             <input type="text" id="name" th:field="*{birthdate}" class="form-control"
-                   th:errorclass="field-error">
+                   th:errorclass="field-error" placeholder="=생년월일을 입력하세요">
             <div class="field-error" th:errors="*{birthdate}" />
         </div>
         <div>
             <label for="name">성별</label>
             <input type="text" id="name" th:field="*{sex}" class="form-control"
-                   th:errorclass="field-error">
+                   th:errorclass="field-error" placeholder="=성별을 입력하세요">
             <div class="field-error" th:errors="*{sex}" />
         </div>
         <div>
             <label for="name">휴대전화</label>
             <input type="text" id="name" th:field="*{phone}" class="form-control"
-                   th:errorclass="field-error">
+                   th:errorclass="field-error" placeholder="=휴대전화를 입력하세요">
             <div class="field-error" th:errors="*{phone}" />
         </div>
 

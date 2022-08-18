@@ -157,16 +157,16 @@ public class BasicBoardController {
 
 
 
-    /**
-     * 테스트용 데이터 추가
-     */
-    @PostConstruct
-    public void init() {
-        boardService.create(new Board("제목", "내용", "이름",
-                "없음", "없음", "없음"));
-        boardService.create(new Board("제목2", "내용2", "이름2",
-                "없음2", "없음2", "없음2"));
-    }
+//    /**
+//     * 테스트용 데이터 추가
+//     */
+//    @PostConstruct
+//    public void init() {
+//        boardService.create(new Board("제목", "내용", "이름",
+//                "없음", "없음", "없음"));
+//        boardService.create(new Board("제목2", "내용2", "이름2",
+//                "없음2", "없음2", "없음2"));
+//    }
 
 
 }
