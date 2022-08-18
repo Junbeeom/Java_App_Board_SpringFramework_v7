@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public class MemoryBoardRepository2 implements BoardRepository {
 
     private static HashMap<Long, Board> store = new HashMap<>();

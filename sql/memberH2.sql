@@ -8,7 +8,7 @@ create table member
     birthdate varchar(30) not null,
     sex varchar(5) not null,
     phone varchar(15) not null,
-    created_ts timestamp default CURRENT_TIMESTAMP not null,
+    created_ts timestamp default CURRENT_TIMESTAMP,
     updated_ts timestamp,
     deleted_ts timestamp,
     is_deleted tinyint(1),

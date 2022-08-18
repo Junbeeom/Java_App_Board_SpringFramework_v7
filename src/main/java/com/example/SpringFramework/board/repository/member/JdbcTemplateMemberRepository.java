@@ -39,7 +39,6 @@ public class JdbcTemplateMemberRepository implements MemberRepository{
         parameters.put("birthdate", member.getBirthdate());
         parameters.put("sex", member.getSex());
         parameters.put("phone", member.getPhone());
-        parameters.put("created_ts", member.getCreatedTs());
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         member.setUser_no(key.longValue());
