@@ -10,11 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Controller
@@ -39,6 +38,7 @@ public class MemberController {
     //등록 폼
     @GetMapping("/add")
     public String addForm(@ModelAttribute("member") Member member) {
+        System.out.println("여긴 등록홈 ");
         return "members/addMemberForm";
     }
 
@@ -53,5 +53,14 @@ public class MemberController {
 
         memberService.join(member);
         return "redirect:/";
+    }
+
+    //등록시 중복 확인
+    @PostMapping("/idCheck")
+    @ResponseBody
+    public int idCheck(@RequestParam("id") String id) {
+
+        int result = memberService.validateDuplicateLoginId(id);
+        return result;
     }
 }

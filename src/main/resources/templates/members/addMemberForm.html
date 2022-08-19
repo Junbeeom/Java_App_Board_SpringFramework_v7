@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://wwww.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}"
@@ -12,6 +12,16 @@
             border-color: #dc3545;
             color: #dc3545;
         }
+        .id_ok{
+            color:#008000;
+            display: none;
+        }
+
+        .id_already{
+            color:#6A82FB;
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -31,39 +41,72 @@
         </div>
 
         <div>
-            <label for="loginId">로그인 ID</label>
-            <input type="text" id="loginId" th:field="*{id}" class="form-control"
-                   th:errorclass="field-error" placeholder="=아이디를 입력하세요">
+            <label for="id">로그인 ID</label>
+            <input type="text" id="id" th:field="*{id}" class="form-control"
+                   th:errorclass="field-error" placeholder="아이디를 입력하세요" oninput = "idCheck()">
+
+            <!-- id ajax 중복체크 -->
+            <span class="id_ok">사용 가능한 아이디입니다.</span>
+            <span class="id_already">누군가 이 아이디를 사용하고 있어요.</span>
             <div class="field-error" th:errors="*{id}" />
         </div>
+"
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script type="text/javascript">
+            function idCheck(){
+                var id = $('#id').val(); //id값이 "id"인 입력란의 값을 저장
+                $.ajax({
+                    url:'/members/idCheck',
+                    type:'post', //POST 방식으로 전달
+                    data:{id:id},
+
+                    success:function(result){ //컨트롤러에서 넘어온 cnt값을 받는다
+                        if(result == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디
+                            $('.id_ok').css("display","inline-block");
+                            $('.id_already').css("display", "none");
+                        } else { // cnt가 1일 경우 -> 이미 존재하는 아이디
+                            $('.id_already').css("display","inline-block");
+                            $('.id_ok').css("display", "none");
+
+
+                        }
+                    },
+                    error:function(){
+                        alert("에러입니다");
+                    }
+                });
+            };
+        </script>
+
+
         <div>
             <label for="password">비밀번호</label>
             <input type="password" id="password" th:field="*{pw}" class="form-control"
-                   th:errorclass="field-error" placeholder="=패스워드를 입력하세요">
+                   th:errorclass="field-error" placeholder="패스워드를 입력하세요">
             <div class="field-error" th:errors="*{pw}" />
         </div>
         <div>
             <label for="name">이름</label>
             <input type="text" id="name" th:field="*{name}" class="form-control"
-                   th:errorclass="field-error" placeholder="=이름을 입력하세요">
+                   th:errorclass="field-error" placeholder="이름을 입력하세요">
             <div class="field-error" th:errors="*{name}" />
         </div>
         <div>
-            <label for="name">생년월일</label>
-            <input type="text" id="name" th:field="*{birthdate}" class="form-control"
-                   th:errorclass="field-error" placeholder="=생년월일을 입력하세요">
+            <label for="birthdate">생년월일</label>
+            <input type="text" id="birthdate" th:field="*{birthdate}" class="form-control"
+                   th:errorclass="field-error" placeholder="생년월일을 입력하세요">
             <div class="field-error" th:errors="*{birthdate}" />
         </div>
         <div>
-            <label for="name">성별</label>
-            <input type="text" id="name" th:field="*{sex}" class="form-control"
-                   th:errorclass="field-error" placeholder="=성별을 입력하세요">
+            <label for="sex">성별</label>
+            <input type="text" id="sex" th:field="*{sex}" class="form-control"
+                   th:errorclass="field-error" placeholder="성별을 입력하세요">
             <div class="field-error" th:errors="*{sex}" />
         </div>
         <div>
-            <label for="name">휴대전화</label>
-            <input type="text" id="name" th:field="*{phone}" class="form-control"
-                   th:errorclass="field-error" placeholder="=휴대전화를 입력하세요">
+            <label for="phone">휴대전화</label>
+            <input type="text" id="phone" th:field="*{phone}" class="orm-control"
+                   th:errorclass="field-error" placeholder="휴대전화를 입력하세요">
             <div class="field-error" th:errors="*{phone}" />
         </div>
 
@@ -82,6 +125,8 @@
         </div>
 
     </form>
+
+    <script></script>
 
 </div> <!-- /container -->
 </body>
