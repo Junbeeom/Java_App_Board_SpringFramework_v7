@@ -21,6 +21,7 @@ public class Board {
     private String created_ts;
     private String updated_ts;
     private String deleted_ts;
+    private String is_deleted;
 
     public Board() {
     }
@@ -32,5 +33,6 @@ public class Board {
         this.created_ts = created_ts;
         this.updated_ts = updated_ts;
         this.deleted_ts = deleted_ts;
+        this.is_deleted = is_deleted;
     }
 }

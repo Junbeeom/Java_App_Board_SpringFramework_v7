@@ -147,9 +147,8 @@ public class BasicBoardController {
     @GetMapping("/{boardId}/delete")
     public String delete(@PathVariable Long boardId, Model model) {
 
-        Board boardParam = new Board();
-        boardParam.
-        boardService.delete(boardId, new Board());
+
+        boardService.delete(boardId);
 
         return "redirect:/basic/boards";
     }

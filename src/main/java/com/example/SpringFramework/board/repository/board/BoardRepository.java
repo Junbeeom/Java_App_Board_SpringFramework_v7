@@ -13,5 +13,5 @@ public interface BoardRepository {
     Optional<Board> findByName(String name);
     List<Board> readAll();
     Board update(Long boardId, Board updateParam);
-    Board delete(Long boardId, Board updateParam);
+    Board delete(Long boardId);
 }

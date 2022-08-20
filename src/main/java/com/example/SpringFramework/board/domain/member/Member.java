@@ -41,5 +41,5 @@ public class Member {
     private Timestamp createdTs;
     private Timestamp updatedTs;
     private Timestamp deleted_ts;
-    private String isDeleted;
+    private String is_deleted;
 }
