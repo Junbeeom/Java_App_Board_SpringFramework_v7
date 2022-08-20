@@ -56,7 +56,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public List<Board> readAll() {
-        return jdbcTemplate.query("select * from board", boardRowMapper());
+        return jdbcTemplate.query("select * from board where is_deleted = 0", boardRowMapper());
     }
 
     private RowMapper<Board> boardRowMapper() {
@@ -77,7 +77,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public Board update(Long boardId, Board updateParam) {
-        String sql = "update board set tittle=?, content=?, name=? where board_no=?";
+        String sql = "update board set tittle=?, content=?, name=?, updated_ts = CURRENT_TIMESTAMP where board_no=?";
         jdbcTemplate.update(sql,
                 updateParam.getTittle(),
                 updateParam.getContent(),
@@ -89,6 +89,9 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public Board delete(Long boardId) {
+        String sql = "update board set is_deleted = 1, deleted_ts = CURRENT_TIMESTAMP where board_no = ?";
+        jdbcTemplate.update(sql, boardId);
+
         return null;
     }
 }
