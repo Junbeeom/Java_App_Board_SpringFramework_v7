@@ -36,6 +36,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
         parameters.put("content", board.getContent());
         parameters.put("name", board.getName());
 
+
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         board.setId(key.longValue());
         return board;
