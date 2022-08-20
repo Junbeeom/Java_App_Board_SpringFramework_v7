@@ -51,7 +51,7 @@ public class MemoryBoardRepository2 implements BoardRepository {
     }
 
     @Override
-    public Board delete(Long boardId) {
+    public Board delete(Long boardId, Board updateParam) {
         store.remove(boardId);
 
         return null;

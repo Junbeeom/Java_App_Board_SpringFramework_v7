@@ -87,7 +87,9 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
 
     @Override
-    public Board delete(Long boardId) {
-        return null;
+    public Board delete(Long boardId, Board updateParam) {
+        String sql = "update board set is_deleted = 1 where board_no = ?";
+        jdbcTemplate.update(sql, updateParam.getDeleted_ts(), boardId);
+        return updateParam;
     }
 }

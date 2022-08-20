@@ -44,8 +44,6 @@
             <label for="id">로그인 ID</label>
             <input type="text" id="id" th:field="*{id}" class="form-control"
                    th:errorclass="field-error" placeholder="아이디를 입력하세요" oninput = "idCheck()">
-
-            <!-- id ajax 중복체크 -->
             <span class="id_ok">사용 가능한 아이디입니다.</span>
             <span class="id_already">누군가 이 아이디를 사용하고 있어요.</span>
             <div class="field-error" th:errors="*{id}" />
@@ -54,21 +52,19 @@
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script type="text/javascript">
             function idCheck(){
-                var id = $('#id').val(); //id값이 "id"인 입력란의 값을 저장
+                var id = $('#id').val();
                 $.ajax({
                     url:'/members/idCheck',
-                    type:'post', //POST 방식으로 전달
+                    type:'post',
                     data:{id:id},
 
-                    success:function(result){ //컨트롤러에서 넘어온 cnt값을 받는다
-                        if(result == 0){ //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디
+                    success:function(result){
+                        if(result == 0){
                             $('.id_ok').css("display","inline-block");
                             $('.id_already').css("display", "none");
-                        } else { // cnt가 1일 경우 -> 이미 존재하는 아이디
+                        } else {
                             $('.id_already').css("display","inline-block");
                             $('.id_ok').css("display", "none");
-
-
                         }
                     },
                     error:function(){

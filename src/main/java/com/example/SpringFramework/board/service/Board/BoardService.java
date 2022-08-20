@@ -35,8 +35,8 @@ public class BoardService {
         return boardRepository.update(boardId, updateParam);
     }
 
-    public Board delete(Long boardId) {
-        return boardRepository.delete(boardId);
+    public Board delete(Long boardId, Board updateParam) {
+        return boardRepository.delete(boardId, Board updateParam);
     }
 
 }
