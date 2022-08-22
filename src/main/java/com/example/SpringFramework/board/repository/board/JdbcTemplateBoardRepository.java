@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
         parameters.put("tittle", board.getTittle());
         parameters.put("content", board.getContent());
         parameters.put("name", board.getName());
+        parameters.put("created_ts", Timestamp.valueOf(LocalDateTime.now()));
 
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
@@ -56,7 +59,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public List<Board> readAll() {
-        return jdbcTemplate.query("select * from board where is_deleted = 0", boardRowMapper());
+        return jdbcTemplate.query("select * from board", boardRowMapper());
     }
 
     private RowMapper<Board> boardRowMapper() {
