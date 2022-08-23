@@ -1,6 +1,8 @@
 package com.example.SpringFramework.board.repository.board;
 
 import com.example.SpringFramework.board.domain.board.Board;
+import com.example.SpringFramework.board.domain.board.paging.Criteria;
+import com.example.SpringFramework.board.domain.board.paging.Criteria;
 import com.example.SpringFramework.board.domain.member.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -80,7 +82,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public Board update(Long boardId, Board updateParam) {
-        String sql = "update board set tittle=?, content=?, name=?, updated_ts = CURRENT_TIMESTAMP where board_no=?";
+        String sql = "update board set tittle=?, content=?, name=?, updated_ts = CURRENT_TIMESTAMP where board_no = ?";
         jdbcTemplate.update(sql,
                 updateParam.getTittle(),
                 updateParam.getContent(),
@@ -96,5 +98,17 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
         jdbcTemplate.update(sql, boardId);
 
         return null;
+    }
+
+    @Override
+    public List<Board> findAll(Board params) {
+        String sql = "select * from board where is_deleted = 0 order by board_no desc limit ?, ?";
+        return jdbcTemplate.query(sql, boardRowMapper(), params.getPaginationInfo().getFirstRecordIndex(), params.getRecordsPerPage());
+    }
+
+
+    @Override
+    public int totalCount(Board params) {
+        return jdbcTemplate.queryForObject("select count(*) from board where is_deleted = 0", Integer.class);
     }
 }

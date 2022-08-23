@@ -9,13 +9,11 @@
 <div class="container" style="max-width: 600px">
     <div class="py-5 text-center">
         <h2  th:text="#{page.boards}">게시글 목록</h2> </div>
-    <div class="row">
         <div class="col">
             <button class="btn btn-primary float-end" onclick="location.href='addForm.html'"
                     th:onclick="|location.href='@{/basic/boards/add}'|"
                     type="button"  th:text="#{page.addBoard}">게시글 등록</button>
         </div>
-    </div>
     <hr class="my-5">
     <div>
         <table class="table">
@@ -39,6 +37,65 @@
             </tbody>
         </table>
     </div>
+    <hr class="my-5">
+    <div class="container">
+        <div class="row">
+
+                <nav th:if="${params != null and params.paginationInfo.totalRecordCount > 0}"
+                 th:object="${params.paginationInfo}"
+                 th:with="info=${params.paginationInfo}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item"><li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(1)} ]])">
+                        <a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+                    </li>
+                    <li class="page-item"><li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.firstPage - 1)} ]])">
+                        <a class="page-link" href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+                    </li>
+                    <li class="page-item"><li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == params.currentPageNo} ? 'active'">
+                        <a class="page-link" href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(pageNo)} ]])"></a>
+                    </li>
+                    <li class="page-item"><li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.lastPage + 1)} ]])">
+                        <a class="page-link" href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+                    </li>
+                    <li class="page-item"><li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.totalPageCount)} ]])">
+                        <a class="page-link" href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+                    </li>
+                </ul>
+                </nav>
+
+
+            <div class="col-md-3">
+                <select th:field="*{searchValue}" class="form-select"> <option value="">제목</option>
+                    <option th:each="searchValue : ${searchValue}" th:value="${searchValue.code}"
+                            th:text="${searchValue.displayName}">FAST</option></select>
+            </div>
+            <div class="col-md-9">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
 </div> <!-- /container -->
+
+<th:block layout:fragment="script">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        function movePage(uri, queryString) {
+            location.href = uri + queryString;
+        }
+
+        /*]]>*/
+    </script>
+</th:block>
+
 </body>
 </html>
+
+

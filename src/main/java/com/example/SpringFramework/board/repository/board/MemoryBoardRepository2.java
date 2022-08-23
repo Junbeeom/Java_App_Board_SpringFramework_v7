@@ -1,6 +1,7 @@
 package com.example.SpringFramework.board.repository.board;
 
 import com.example.SpringFramework.board.domain.board.Board;
+import com.example.SpringFramework.board.domain.board.paging.Criteria;
 import com.example.SpringFramework.board.repository.board.BoardRepository;
 import org.springframework.stereotype.Repository;
 
@@ -59,5 +60,15 @@ public class MemoryBoardRepository2 implements BoardRepository {
 
     public void clearStore() {
         store.clear();
+    }
+
+    @Override
+    public List<Board> findAll(Board params) {
+        return null;
+    }
+
+    @Override
+    public int totalCount(Board params) {
+        return 0;
     }
 }

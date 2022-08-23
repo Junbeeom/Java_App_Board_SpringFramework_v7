@@ -1,6 +1,8 @@
 package com.example.SpringFramework.board.web.basic;
 
 import com.example.SpringFramework.board.domain.board.Board;
+import com.example.SpringFramework.board.domain.board.SearchValue;
+import com.example.SpringFramework.board.domain.board.paging.Criteria;
 import com.example.SpringFramework.board.repository.board.BoardRepository;
 import com.example.SpringFramework.board.repository.board.MemoryBoardRepository2;
 import com.example.SpringFramework.board.service.Board.BoardService;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.annotation.PostConstruct;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -37,13 +41,27 @@ public class BasicBoardController {
     */
 
 
-    //목록
+//    //목록
+//    @GetMapping
+//    public String boards(Model model) {
+//        List<Board> boards = boardService.readAll();
+//        model.addAttribute("boards", boards);
+//        return "basic/boards";
+//    }
+//
+    //목록 (페이지 네이션 추가)
     @GetMapping
-    public String boards(Model model) {
-        List<Board> boards = boardService.readAll();
+    public String boards(@ModelAttribute("params") Board params, Model model) {
+
+        List<Board> boards = boardService.findAll(params);
+
+        System.out.println("컨트로러에서 실행된 boards의 게시글 총 수 입니다 " + boards.size());
         model.addAttribute("boards", boards);
+
         return "basic/boards";
     }
+
+
 
     //상품 상세
     @GetMapping("/{boardId}")
@@ -152,6 +170,19 @@ public class BasicBoardController {
 
         return "redirect:/basic/boards";
     }
+
+    //검색
+
+    @ModelAttribute("searchValue")
+    public List<SearchValue> searchValues() {
+        List<SearchValue> searchValues = new ArrayList<>();
+        searchValues.add(new SearchValue("title",  "제목"));
+        searchValues.add(new SearchValue("content", "내용"));
+        searchValues.add(new SearchValue("name", "이름"));
+
+        return searchValues;
+    }
+
 
 
 
