@@ -132,6 +132,8 @@ public class BasicBoardController {
     @GetMapping("/{boardId}/edit")
     public String editForm(@PathVariable Long boardId, Model model) {
 
+
+
         Board board = boardService.findById(boardId).get();
         model.addAttribute("board", board);
         return "basic/editForm";
