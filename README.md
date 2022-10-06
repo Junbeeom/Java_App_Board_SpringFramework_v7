@@ -5,13 +5,12 @@
 - Spring Framework, Spring Boot를 활용한 게시판 Application 개발
 
 ### 1.2 목표 및 의의
-#### 1.2.1 Java_App_Board_JSP_MVC_Model1_V5
+#### 1.2.1 Java_App_Board_SpringFramework_v7
 - Spring Framework 이해
+- @Annotaion ~
 - 스프링 AOP에 대한 이해 
-- @어노테이션 
-- 회원가입시 input값 유효성 검사
-- 비동기 JavaScript ajax를 사용한 id 중복 check 구현
-- 단방향 암호화인 SHA-256 알고리즘을 이용한 PassWord 암호화
+- 스프링 필터 및 인터셉터에 대한 이해
+- 
 
 
 # 2. 개발 환경
