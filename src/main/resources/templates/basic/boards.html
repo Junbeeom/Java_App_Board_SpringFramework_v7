@@ -19,16 +19,24 @@
         <div class="row">
             <div class="col-md-3">
                 <select name = "searchType" class="form-select"> <option value="">검색</option>
-                    <option value="" th:selected="${#strings.isEmpty( params.searchType )}">전체</option>
-                    <option value="tittle" th:selected="${#strings.equals( params.searchType, 'tittle' )}">제목</option>
-                    <option value="content" th:selected="${#strings.equals( params.searchType, 'content' )}">내용</option>
-                    <option value="name" th:selected="${#strings.equals( params.searchType, 'name' )}">작성자</option>
+                    <option value="" th:selected="${#strings.isEmpty( board.searchType )}">전체</option>
+                    <option value="tittle" th:selected="${#strings.equals( board.searchType, 'tittle' )}">제목</option>
+                    <option value="content" th:selected="${#strings.equals( board.searchType, 'content' )}">내용</option>
+                    <option value="name" th:selected="${#strings.equals( board.searchType, 'name' )}">작성자</option>
                 </select>
             </div>
             <div class="col-md-9">
                 <div class="input-group mb-3">
+<<<<<<< HEAD
+                    <input type="text" name="searchValue" class="form-control" placeholder="키워드를 입력하세요."
+                           th:value="${board.searchValue}" aria-label="키워드를 입력하세요." aria-describedby="button-addon2">
+=======
                     <input type="text" name = "searchKeyword" class="form-control" placeholder="키워드를 입력하세요."
                            th:value="${params.searchKeyword}" aria-label="Recipient's username" aria-describedby="button-addon2">
+<<<<<<< HEAD
+>>>>>>> parent of 190f94f (before code review)
+=======
+>>>>>>> parent of 190f94f (before code review)
                     <button class="btn btn-outline-secondary" onclick="searchBoard(null)" type="submit" id="button-addon2"></button>
                 </div>
             </div>
@@ -39,7 +47,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th th:text="#{label.board.id}">id</th>
+                <th th:text="#{label.board.board_no}">id</th>
                 <th th:text="#{label.board.tittle}">제목</th>
                 <th th:text="#{label.board.name}">작성자</th>
                 <th th:text="#{label.board.created_ts}">등록일시</th>
@@ -48,8 +56,8 @@
             </thead>
             <tbody>
             <tr th:each="board : ${boards}">
-                <td><a href="board.html" th:href="@{/basic/boards/{boardId}(boardId=${board.id})}" th:text="${board.id}">게시글no</a></td>
-                <td><a href="board.html" th:href="@{/basic/boards/{boardId}(boardId=${board.id})}" th:text="${board.tittle}">제목</a></td>
+                <td><a href="board.html" th:href="@{/basic/boards/{boardId}(boardId=${board.board_no})}" th:text="${board.board_no}">게시글no</a></td>
+                <td><a href="board.html" th:href="@{/basic/boards/{boardId}(boardId=${board.board_no})}" th:text="${board.tittle}">제목</a></td>
                 <td><a th:text="${board.name}">작성자</a></td>
                 <td><a th:text="${board.created_ts}">등록일시</a></td>
                 <td><a th:text="${board.updated_ts}">수정일시</a></td>
@@ -57,24 +65,24 @@
             </tbody>
         </table>
     </div>
-    <hr class="my-5">
-                <nav th:if="${params != null and params.paginationInfo.totalRecordCount > 0}"
-                 th:object="${params.paginationInfo}"
-                 th:with="info=${params.paginationInfo}">
+    <hr class="my-5"> 
+                <nav th:if="${board != null and board.pagination.totalCount > 0}"
+                 th:object="${board.pagination}"
+                 th:with="pagination=${board.pagination}">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item"><li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(1)} ]])">
+                    <li class="page-item"><li th:if="*{hasPreviousPage == true}">
                         <a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
                     </li>
-                    <li class="page-item"><li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.firstPage - 1)} ]])">
+                    <li class="page-item"><li th:if="*{hasPreviousPage == true}">
                         <a class="page-link" href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
                     </li>
-                    <li class="page-item"><li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == params.currentPageNo} ? 'active'">
-                        <a class="page-link" href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(pageNo)} ]])"></a>
+                    <li class="page-item"><li th:each="pageNo : *{#numbers.sequence( startPage, endPage )}" th:class="${pageNo == board.currentPage} ? 'active'">
+                        <a class="page-link" href="javascript:void(0)" th:text="${pageNo}"></a>
                     </li>
-                    <li class="page-item"><li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.lastPage + 1)} ]])">
+                    <li class="page-item"><li th:if="*{hasNextPage == true}">
                         <a class="page-link" href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
                     </li>
-                    <li class="page-item"><li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${params.makeQueryString(info.totalPageCount)} ]])">
+                    <li class="page-item"><li th:if="*{hasNextPage == true}">
                         <a class="page-link" href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
                     </li>
                 </ul>
