@@ -13,13 +13,13 @@
 - 스프링 필터 및 인터셉터에 대한 이해
 
 
+
 # 2. 개발 환경
 - IntelliJ IDEA(Ultimate Edition), GitHub
 
 
 # 3. 사용기술
-- Java 11, JavaScript, JSP, HTML 5
-
+- Java 11, Spring Boot, JavaScript, HTML 5, Thymeleaf 
 
 # 4.프로젝트 설계
 
@@ -37,36 +37,27 @@
 
 
 ### 4.2 게시글 작성하기
-<img width="1092" alt="스크린샷 2022-10-01 오후 2 23 57" src="https://user-images.githubusercontent.com/103010985/193394009-2fd1b4b4-cedd-46f7-87c5-2cf524ce9c24.png">
+<img width="654" alt="스크린샷 2022-10-12 오후 7 22 58" src="https://user-images.githubusercontent.com/103010985/195318404-aecf7471-4cb7-431d-ae32-c682ab38738f.png">
 
-### 4.2.1 게시글 작성하기 (Session id 없을 시 게시글 작성 안됨, alert login message) 
-<img width="542" alt="스크린샷 2022-10-01 오후 2 30 43" src="https://user-images.githubusercontent.com/103010985/193394182-8439483b-f640-48c6-b4af-136fcd537ca2.png">
+### 4.3 게시글 상세 보기 
+<img width="644" alt="스크린샷 2022-10-12 오후 7 23 48" src="https://user-images.githubusercontent.com/103010985/195318583-462aab4e-6506-4d74-8f61-cc4c59869166.png">
 
-### 4.3 게시글 상세 보기 (Session 확인해서 id 일치 하지 않을 시, 수정 및 삭제 buttom이 안뜸)
-<img width="1094" alt="스크린샷 2022-10-01 오후 2 29 32" src="https://user-images.githubusercontent.com/103010985/193394151-1540539b-01fd-4583-965c-3bb9aecb7ffd.png">
-
-
-### 4.3.1 게시글 상세 보기 (Session 확인해서 id 일치할 경우)
-<img width="1091" alt="스크린샷 2022-10-01 오후 2 27 36" src="https://user-images.githubusercontent.com/103010985/193394092-83f37533-a8aa-421a-8a7d-b02fcb93d064.png">
 
 
 ### 4.4 검색하기
-<img width="1097" alt="스크린샷 2022-10-01 오후 2 32 31" src="https://user-images.githubusercontent.com/103010985/193394253-8ac5b603-8f0b-4ac5-9f71-210b2574f8bd.png">
+<img width="712" alt="스크린샷 2022-10-12 오후 7 24 43" src="https://user-images.githubusercontent.com/103010985/195318808-795dbadf-0442-470b-9ed9-7e8c0c27343d.png">
 
 ### 4.5 수정하기
-<img width="1095" alt="스크린샷 2022-10-01 오후 2 37 12" src="https://user-images.githubusercontent.com/103010985/193394399-b37edeef-bede-4e00-a532-7c954c49bb8b.png">
+<img width="621" alt="스크린샷 2022-10-12 오후 7 24 05" src="https://user-images.githubusercontent.com/103010985/195318650-6b79f623-26bf-4458-884f-467604e27602.png">
 
 
 ### 4.5 board Package
-<img width="479" alt="스크린샷 2022-10-05 오후 5 08 11" src="https://user-images.githubusercontent.com/103010985/194011785-191d14ea-435e-4cba-8eb5-6d634d77b029.png">
+<img width="810" alt="스크린샷 2022-10-12 오후 7 29 14" src="https://user-images.githubusercontent.com/103010985/195319785-e71d1254-f612-4983-bab3-58305a2a920f.png">
 
 
-### 4.6 Common Package
-<img width="296" alt="스크린샷 2022-10-05 오후 5 10 40" src="https://user-images.githubusercontent.com/103010985/194012342-e86f1a17-6a50-4813-8538-6f4a0dc2d11d.png">
+### 4.6 member Package
+<img width="1581" alt="스크린샷 2022-10-12 오후 7 30 49" src="https://user-images.githubusercontent.com/103010985/195320088-197b1a0c-9d1a-4bcd-b355-7b42c47a8234.png">
 
-
-### 4.7 Swing view Package
-<img width="934" alt="스크린샷 2022-09-28 오후 2 59 38" src="https://user-images.githubusercontent.com/103010985/192699678-a9633a72-cd2b-45aa-998d-453627fdcf7b.png">
 
 # 5.기본 기능
 - 등록 registered 
@@ -79,128 +70,231 @@
 
 # 6.핵심 기능
 
-### 6.1 게시글 등록, 수정 data 입력 받을 시 유효성 체크
-<img width="456" alt="스크린샷 2022-09-28 오후 3 03 37" src="https://user-images.githubusercontent.com/103010985/192700162-accbc3ae-01e6-46b4-b306-fd52f68c60a6.png">
+### 6.1 Board Controller
 
+```java
+package com.example.SpringFramework.board.web.basic;
 
-```java      
-//등록 actionPerformed
-@Override
-public void actionPerformed(ActionEvent e) {
+import com.example.SpringFramework.board.domain.board.Board;
+import com.example.SpringFramework.board.domain.board.SearchValue;
+import com.example.SpringFramework.board.domain.board.paging.Criteria;
+import com.example.SpringFramework.board.repository.board.BoardRepository;
+import com.example.SpringFramework.board.repository.board.MemoryBoardRepository2;
+import com.example.SpringFramework.board.service.Board.BoardService;
+import com.example.SpringFramework.board.web.basic.form.BoardCreateForm;
+import com.example.SpringFramework.board.web.basic.form.BoardUpdateForm;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-    //제목 유효성 검사
-    userTitle = tittleArea.getText();
-    if(!common.validation(Common.BOARD_TITLE, userTitle)) {
-        while(true) {
-            userTitle = JOptionPane.showInputDialog(null, "제목은 12글자 이하로 입력해야 합니다.\n다시 입력하세요.", "");
+import javax.annotation.PostConstruct;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
-            if(common.validation(Common.BOARD_TITLE, userTitle)) {
-                break;
-            }
-        }
+@Slf4j
+@Controller
+@RequestMapping("/basic/boards")
+@RequiredArgsConstructor // final붙은 생성자 만들어줌. (각각의 생성자가 하나 일 경우.)
+public class BasicBoardController {
+
+    private final BoardService boardService;
+
+    //목록 (페이지 네이션 추가)
+    @GetMapping
+    public String boards(@ModelAttribute("params") Board params, Model model) {
+
+        List<Board> boards = boardService.findAll(params);
+
+        System.out.println("컨트로러에서 실행된 boards의 게시글 총 수 입니다 " + boards.size());
+        model.addAttribute("boards", boards);
+
+        return "basic/boards";
     }
-    userContent = contentArea.getText();
 
-    //내용 유효성 검사
-    if(!common.validation(Common.BOARD_CONTENT, userContent)) {
-        while(true) {
-            userContent = JOptionPane.showInputDialog(null, "내용은 200자 이하로 작성할 수 있습니다.\n글자수에 맞게 다시 작성하세요", "");
 
-            if(common.validation(Common.BOARD_CONTENT, userContent)) {
-                break;
-            }
-        }
-    }
-    userName = nameArea.getText();
 
-    //이름 유효성 검사
-    if(!common.validation(Common.BOARD_NAME, userName)) {
-        while (true) {
-            userName = JOptionPane.showInputDialog(null, "이름을 올바른 형식으로 입력하세요\n한글 및 영어만 가능합니다.", "");
-
-            if(common.validation(Common.BOARD_NAME, userName)) {
-                break;
-            }
-        }
+    //상품 상세
+    @GetMapping("/{boardId}")
+    public String board(@PathVariable long boardId, Model model) {
+        Board board = boardService.findById(boardId).get();
+        model.addAttribute("board", board);
+        return "basic/board";
     }
 
-    try {
-        int result = boardService.registered(userTitle, userContent, userName);
-
-        if(result == 1) {
-            JOptionPane.showMessageDialog(null, "등록이 완료되었습니다", "INFORMATION_MESSAGE", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-        } else {
-            JOptionPane.showMessageDialog(null, "등록 실패하였습니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch(SQLException ex) {
-        ex.printStackTrace();
+    //등록 폼
+    @GetMapping("/add")
+    public String addForm(Model model) {
+        model.addAttribute("board", new Board());
+        return "basic/addForm";
     }
-    createdFrame.dispose();
-    new View();
+
+    //@PostMapping("/add")
+    public String save(@RequestParam String boardTittle,
+                       @RequestParam String boardContent,
+                       @RequestParam String boardName,
+                       Model model) {
+
+        Board board = new Board();
+        board.setTittle(boardTittle);
+        board.setContent(boardContent);
+        board.setName(boardName);
+
+        boardService.create(board);
+
+        model.addAttribute("board", board);
+        return "basic/board";
+    }
+
+    //등록 로직
+    @PostMapping("/add")
+    public String add(@Validated  @ModelAttribute("board") BoardCreateForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+
+        //검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            //같이 넘어감으로 model.attiribute는 생략 가능.
+            log.info("errors={}", bindingResult);
+            return "basic/addForm";
+        }
+
+        //성공로직
+        Board boardParam = new Board();
+        boardParam.setTittle(form.getTittle());
+        boardParam.setContent(form.getContent());
+        boardParam.setName(form.getName());
+
+        Board createBoard = boardService.create(boardParam);
+        redirectAttributes.addAttribute("boardId", createBoard.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/basic/boards/{boardId}";
+
+
+    }
+
+    //수정 폼 보기.
+    @GetMapping("/{boardId}/edit")
+    public String editForm(@PathVariable Long boardId, Model model) {
+
+
+
+        Board board = boardService.findById(boardId).get();
+        model.addAttribute("board", board);
+        return "basic/editForm";
+
+    }
+
+    //수정
+    @PostMapping("/{boardId}/edit")
+    public String edit(@PathVariable Long boardId, @Validated @ModelAttribute("board") BoardUpdateForm form, BindingResult bindingResult) {
+
+        //검증에 실패하면 다시 입력 폼으로
+        if (bindingResult.hasErrors()) {
+            //같이 넘어감으로 model.attiribute는 생략 가능.
+            log.info("errors={}", bindingResult);
+            return "basic/editForm";
+        }
+
+        //성공 로직
+        Board boardParam = new Board();
+        boardParam.setId(form.getId());
+        boardParam.setTittle(form.getTittle());
+        boardParam.setContent(form.getContent());
+        boardParam.setName(form.getName());
+
+        boardService.update(boardId, boardParam);
+
+        return "redirect:/basic/boards/{boardId}";
+    }
+
+    //삭제
+    @GetMapping("/{boardId}/delete")
+    public String delete(@PathVariable Long boardId, Model model) {
+
+
+        boardService.delete(boardId);
+
+        return "redirect:/basic/boards";
+    }
+
+    //검색
+    @ModelAttribute("searchValue")
+    public List<SearchValue> searchValues() {
+        List<SearchValue> searchValues = new ArrayList<>();
+        searchValues.add(new SearchValue("title",  "제목"));
+        searchValues.add(new SearchValue("content", "내용"));
+        searchValues.add(new SearchValue("name", "이름"));
+
+        return searchValues;
+    }
+
 }
-});
-        
-//수정 actionPerformed
-@Override
-public void actionPerformed(ActionEvent e) {
-    Common common = new Common();
 
-    //제목 유효성 검사
-    userTitle = tittleArea.getText();
-    if(!common.validation(Common.BOARD_TITLE, userTitle)) {
-        while(true) {
-            userTitle = JOptionPane.showInputDialog(null, "제목은 12글자 이하로 입력해야 합니다.\n다시 입력하세요.", "");
-
-            if(common.validation(Common.BOARD_TITLE, userTitle)) {
-                break;
-            }
-        }
-    }
-    userContent = contentArea.getText();
-
-    //내용 유효성 검사
-    if(!common.validation(Common.BOARD_CONTENT, userContent)) {
-        while(true) {
-            userContent = JOptionPane.showInputDialog(null, "내용은 200자 이하로 작성할 수 있습니다.\n글자수에 맞게 다시 작성하세요", "");
-
-            if(common.validation(Common.BOARD_CONTENT, userContent)) {
-                break;
-            }
-        }
-    }
-    userName = nameArea.getText();
-
-    //이름 유효성 검사
-    if(!common.validation(Common.BOARD_NAME, userName)) {
-        while(true) {
-            userName = JOptionPane.showInputDialog(null, "이름을 올바른 형식으로 입력하세요\n한글 및 영어만 가능합니다.", "");
-
-            if(common.validation(Common.BOARD_NAME, userName)) {
-                break;
-            }
-        }
-    }
-    try {
-        int result = boardService.modified(num, userTitle, userContent, userName);
-
-        if(result == 1) {
-            JOptionPane.showMessageDialog(null, "수정이 완료되었습니다", "INFORMATION_MESSAGE", JOptionPane.INFORMATION_MESSAGE);
-            dispose();
-            new View().revalidate();
-            new View().repaint();
-        } else {
-            JOptionPane.showMessageDialog(null, "수정에 실패하였습니다.", "ERROR_MESSAGE", JOptionPane.ERROR_MESSAGE);
-            updatedFrame.dispose();
-            new View().revalidate();
-            new View().repaint();
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
-    }
-    setVisible(false);
-}
 ```
+
+### 6.2 member Controller
+package com.example.SpringFramework.board.web.member;
+
+import com.example.SpringFramework.board.domain.member.Member;
+import com.example.SpringFramework.board.repository.member.MemoryMemberRepository;
+import com.example.SpringFramework.board.service.member.MemberService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+
+@Slf4j
+@Controller
+@RequestMapping("/members")
+public class MemberController {
+    private final MemberService memberService;
+
+    @Autowired
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    //등록 폼
+    @GetMapping("/add")
+    public String addForm(@ModelAttribute("member") Member member) {
+        System.out.println("여긴 등록홈 ");
+        return "members/addMemberForm";
+    }
+
+    //등록 로직
+    @PostMapping("/add")
+    public String create(@Validated @ModelAttribute Member member, BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+        if (bindingResult.hasErrors()) {
+            log.info("errors={}", bindingResult);
+            return "members/addMemberForm";
+        }
+
+
+        memberService.join(member);
+        return "redirect:/";
+    }
+
+    //등록시 중복 확인
+    @PostMapping("/idCheck")
+    @ResponseBody
+    public int idCheck(@RequestParam("id") String id) {
+
+        int result = memberService.validateDuplicateLoginId(id);
+        return result;
+    }
+}
+
 
 
 # 7.회고
@@ -214,8 +308,10 @@ public void actionPerformed(ActionEvent e) {
 
 3. 폼의 데이터를 전달할때 별도의 객체를 사용하였고, 클라이언트에서 유효성 검증을 위해 Bean Validation 2.0(JSR-380) 기술 표준을 이용하였습니다. 스프링 전용 검증 Annotaion인 @Validated를 사용하여 효율성을 높일 수 있었습니다.
 
+
 4. 웹과 관련된 공통 관심 사항을 효과적으로 해결 할 수 있도록 Spring MVC가 제공하는 Interceptor 기술을 사용하여 Controller 호출전에 호출되는 preHandle Method를 이용하여 Session을 체크하고 미인증 사용자의 요청일땐 login 화면으로 redirect 할 수 있도록 구현하였습니다.
 
+5.RestFull Api에 의거하여 게시판 API와 회원 관리 API를 설계 하였습니다. 
 
 
 
