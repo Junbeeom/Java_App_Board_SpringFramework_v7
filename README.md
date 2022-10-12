@@ -208,15 +208,11 @@ public void actionPerformed(ActionEvent e) {
 ### Java_App_Board_SpringFramework_v7
 
 1. Spring MVC pattern에서의 핵심은 DispatcherServlet입니다. DispatcherServlet은 부모클래스인 HttpServlet을 상속받고, 서블릿으로 동작하는데
-스프링 부트는 DispacherServlet을 Servlet으로 자동 등록하면서 모든 경로 urlPatterns="/"에 대해 매핑합니다. @Controller, @Service, @Repository  프로젝트 설계할때 MVC2 pattern에 의거하여 domain, repository, service, web으로 나누었으며 controller는 web에 작성하여 web은 domain을 의존하지만, domain은 web을 의존하지 않도록 설계 했다. 
+스프링 부트는 DispacherServlet을 Servlet으로 자동 등록하면서 모든 경로 urlPatterns="/"에 대해 매핑합니다. Annotaion을 사용하여 @Controller, @Service, @Repository  프로젝트 설계할때 MVC2 pattern에 의거하여 domain, repository, service, web으로 나누었으며 controller는 web에 작성하여 web은 domain을 의존하지만, domain은 web을 의존하지 않도록 설계 하였습니다.
 
+2. Spring Boot에서 공식적으로 지원하고 권장하는 템플릿 엔진인 Thymeleaf를 사용하여 서버에서 HTML을 동적으로 렌더링 할 수 있도록 구현했습니다.
 
-2. html의 head, nav의 모듈화를 통해 JSP파일의 코드의 복잡성을 감소시켜 오류의 범위를 최소화 했습니다. 
-
-3. JSP에서는 Cross site script에 대한 방지가 되어 있지 않아 특정 문자를 html entity code로 변환하여 출력 할 수 있도록 하였으며, 이때 recursion 형태로 함수를 구현하여 array, object, String의 타입으로 매개변수를 전달하여도 동작 할 수 있도록 구현 하였습니다.
-
-4. 브라우저가 HTML을 전부 읽고 DOM 트리를 완성하는 즉시 발생시키는 DOMContentLoaded 이벤트를 활용하여 로그인시 null 값을 체크 할 수 있도록 구현하였습니다. button 클릭시, event.preventDefault();를 실행시켜 validation 함수를 호출 할 수 있도록 하였고, null값과 각 타입을 체크 할 수 있는 공통함수를 개발했습니다.
-
+3. 클라이언트 단에서의 유효성 
 
 
 
