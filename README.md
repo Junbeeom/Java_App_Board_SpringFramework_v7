@@ -100,12 +100,12 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/basic/boards")
-@RequiredArgsConstructor // final붙은 생성자 만들어줌. (각각의 생성자가 하나 일 경우.)
+@RequiredArgsConstructor 
 public class BasicBoardController {
 
     private final BoardService boardService;
 
-    //목록 (페이지 네이션 추가)
+    //
     @GetMapping
     public String boards(@ModelAttribute("params") Board params, Model model) {
 
