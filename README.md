@@ -212,7 +212,9 @@ public void actionPerformed(ActionEvent e) {
 
 2. Spring Boot에서 공식적으로 지원하고 권장하는 템플릿 엔진인 Thymeleaf를 사용하여 서버에서 HTML을 동적으로 렌더링 할 수 있도록 구현했습니다.
 
-3. 클라이언트 단에서의 유효성 
+3. 폼의 데이터를 전달할때 별도의 객체를 사용하였고, 클라이언트에서 유효성 검증을 위해 Bean Validation 2.0(JSR-380) 기술 표준을 이용하였습니다. 스프링 전용 검증 Annotaion인 @Validated를 사용하여 효율성을 높일 수 있었습니다.
+
+4. 웹과 관련된 공통 관심 사항을 효과적으로 해결 할 수 있도록 Spring MVC가 제공하는 Interceptor 기술을 사용하여 Controller 호출전에 호출되는 preHandle Method를 이용하여 Session을 체크하고 미인증 사용자의 요청일땐 login 화면으로 redirect 할 수 있도록 구현하였습니다.
 
 
 
