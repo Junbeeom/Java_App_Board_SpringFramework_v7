@@ -6,8 +6,9 @@
 
 ### 1.2 목표 및 의의
 #### 1.2.1 Java_App_Board_SpringFramework_v7
-- Spring Framework 이해
-- @Annotaion ~
+- Servlet에 대한 이해 
+- Spring Framework의 이해 
+- DispatcherServlet의 이해 
 - 스프링 AOP에 대한 이해 
 - 스프링 필터 및 인터셉터에 대한 이해
 
@@ -23,15 +24,17 @@
 # 4.프로젝트 설계
 
 ### 4.1 로그인 (Login page) 
-<img width="1105" alt="스크린샷 2022-10-01 오후 2 17 26" src="https://user-images.githubusercontent.com/103010985/193393815-cdd7b9c7-8e28-4c4d-9560-825448cf3730.png">
+<img width="597" alt="스크린샷 2022-10-07 오후 8 22 07" src="https://user-images.githubusercontent.com/103010985/194541904-2315eaf0-bdfd-4b3a-bc6f-e5df60bf8083.png">
+
 
 ### 4.2 회원가입 (id 중복 확인)
-<img width="1091" alt="스크린샷 2022-10-01 오후 2 38 47" src="https://user-images.githubusercontent.com/103010985/193394439-5743c283-91e8-4fb3-ade1-737113b86814.png">
-<img width="1086" alt="스크린샷 2022-10-01 오후 2 39 04" src="https://user-images.githubusercontent.com/103010985/193394449-dc8d1b15-bd32-477a-aaea-37e3d397ecfd.png">
+<img width="683" alt="스크린샷 2022-10-07 오후 8 22 32" src="https://user-images.githubusercontent.com/103010985/194541971-329fa2b4-ac8b-4c0b-b698-5ee76f6b24b0.png">
 
+<img width="621" alt="스크린샷 2022-10-07 오후 8 22 59" src="https://user-images.githubusercontent.com/103010985/194542026-e86337bb-0385-4d1f-a6a7-9b5b49453f33.png">
 
 ### 4.2 게시판 (board page) 
-<img width="1099" alt="스크린샷 2022-10-01 오후 2 21 47" src="https://user-images.githubusercontent.com/103010985/193393947-92d5eb51-a4e1-4904-9c9f-40e80a7be1d5.png">
+<img width="715" alt="스크린샷 2022-10-07 오후 8 24 12" src="https://user-images.githubusercontent.com/103010985/194542300-c8452639-5dff-4dc7-8fee-3ddedd86380e.png">
+
 
 ### 4.2 게시글 작성하기
 <img width="1092" alt="스크린샷 2022-10-01 오후 2 23 57" src="https://user-images.githubusercontent.com/103010985/193394009-2fd1b4b4-cedd-46f7-87c5-2cf524ce9c24.png">
@@ -204,8 +207,9 @@ public void actionPerformed(ActionEvent e) {
 
 ### Java_App_Board_SpringFramework_v7
 
-1. Model View Controller, MVC1 디자인 패턴을 고려하여 Model은 Java Bean으로 구현하고 d/ JSP로 구현한 게시판 어플리케이션은 MVC Model1 구조로 웹 브라우저의 요청을 JSP페이지가 받아서
-처리하는 구조이다. Model은 Java Bean이 처리를 하고, Controller와 Service가 명확히 구분이 되어 있지 않아 설계상 ~
+1. Spring MVC pattern에서의 핵심은 DispatcherServlet입니다. DispatcherServlet은 부모클래스인 HttpServlet을 상속받고, 서블릿으로 동작하는데
+스프링 부트는 DispacherServlet을 Servlet으로 자동 등록하면서 모든 경로 urlPatterns="/"에 대해 매핑합니다. @Controller, @Service, @Repository  프로젝트 설계할때 MVC2 pattern에 의거하여 domain, repository, service, web으로 나누었으며 controller는 web에 작성하여 web은 domain을 의존하지만, domain은 web을 의존하지 않도록 설계 했다. 
+
 
 2. html의 head, nav의 모듈화를 통해 JSP파일의 코드의 복잡성을 감소시켜 오류의 범위를 최소화 했습니다. 
 
