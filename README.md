@@ -13,13 +13,12 @@
 - 스프링 필터 및 인터셉터에 대한 이해
 
 
-
 # 2. 개발 환경
 - IntelliJ IDEA(Ultimate Edition), GitHub
 
 
 # 3. 사용기술
-- Java 11, Spring Boot, JavaScript, HTML 5, Thymeleaf 
+- Java 11, Spring Boot, JavaScript, Thymeleaf 
 
 # 4.프로젝트 설계
 
@@ -41,8 +40,6 @@
 
 ### 4.3 게시글 상세 보기 
 <img width="644" alt="스크린샷 2022-10-12 오후 7 23 48" src="https://user-images.githubusercontent.com/103010985/195318583-462aab4e-6506-4d74-8f61-cc4c59869166.png">
-
-
 
 ### 4.4 검색하기
 <img width="712" alt="스크린샷 2022-10-12 오후 7 24 43" src="https://user-images.githubusercontent.com/103010985/195318808-795dbadf-0442-470b-9ed9-7e8c0c27343d.png">
@@ -304,16 +301,13 @@ public class MemberController {
 
 ### Java_App_Board_SpringFramework_v7
 
-1. Spring MVC pattern에서의 핵심은 DispatcherServlet입니다. DispatcherServlet은 부모클래스인 HttpServlet을 상속받고, 서블릿으로 동작하는데
-스프링 부트는 DispacherServlet을 Servlet으로 자동 등록하면서 모든 경로 urlPatterns="/"에 대해 매핑합니다. Annotaion을 사용하여 @Controller, @Service, @Repository  프로젝트 설계할때 MVC2 pattern에 의거하여 domain, repository, service, web으로 나누었으며 controller는 web에 작성하여 web은 domain을 의존하지만, domain은 web을 의존하지 않도록 설계 하였습니다.
+1. Spring MVC Pattern에서의 핵심은 DispatcherServlet이기에 MVC2 Pattern에 의거하여 domain, repository, service, web으로 나누었으며, SOLID 원칙 중 단일 책임 원칙과 의존성 역전 원칙을 지키고자 web은 domain을 의존하지만 domain은 web을 의존하지 않도록 설계헸습니다.
 
 2. Spring Boot에서 공식적으로 지원하고 권장하는 템플릿 엔진인 Thymeleaf를 사용하여 서버에서 HTML을 동적으로 렌더링 할 수 있도록 구현했습니다.
 
-3. 폼의 데이터를 전달할때 별도의 객체를 사용하였고, 클라이언트에서 유효성 검증을 위해 Bean Validation 2.0(JSR-380) 기술 표준을 이용하였습니다. 스프링 전용 검증 Annotaion인 @Validated를 사용하여 효율성을 높일 수 있었습니다.
+3. Form 데이터를 전달할때 별도의 객체를 사용하였으며, 클라이언트에서 유효성 검증을 위해 Bean Validation 기술 표준을 이용함으로써 스프링 전용 검증 Annotaion인 @Validated를 사용하여 효율성 함양했습니다.
 
-4. 웹과 관련된 공통 관심 사항을 효과적으로 해결 할 수 있도록 Spring MVC가 제공하는 Interceptor 기술을 사용하여 Controller 호출전에 호출되는 preHandle Method를 이용하여 Session을 체크하고 미인증 사용자의 요청일땐 login 화면으로 redirect 할 수 있도록 구현하였습니다.
-
-5. RestFull Api에 의거하여 board API와 member API를 설계 하였습니다. 
+4. 이전 JSP 프로젝트에서 nav를 모듈화하여 로그인 체크 및 redirect를 하였는데 Spring Boot Interceptor를 활용하여 Controller 호출 전 호출 되는 preHandle Method를 이용하여 보다 편리하고 효율적으로 로그인 체크 및 redirect가 일어나도록 개선하였습니다.
 
 
 
