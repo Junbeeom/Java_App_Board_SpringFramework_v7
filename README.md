@@ -301,7 +301,7 @@ public class MemberController {
 
 ### Java_App_Board_SpringFramework_v7
 
-1. Spring MVC Pattern에서의 핵심은 DispatcherServlet이기에 MVC2 Pattern에 의거하여 domain, repository, service, web으로 나누었으며, SOLID 원칙 중 단일 책임 원칙과 의존성 역전 원칙을 지키고자 web은 domain을 의존하지만 domain은 web을 의존하지 않도록 설계헸습니다.
+1. Spring MVC Pattern에서의 핵심은 DispatcherServlet이기에 MVC2 Pattern에 의거하여 domain, repository, service, web으로 나누었으며, SOLID 원칙 중 단일 책임 원칙과 의존성 역전 원칙을 지키고자 web은 domain을 의존하지만 domain은 web을 의존하지 않도록 설계했습니다.
 
 2. Spring Boot에서 공식적으로 지원하고 권장하는 템플릿 엔진인 Thymeleaf를 사용하여 서버에서 HTML을 동적으로 렌더링 할 수 있도록 구현했습니다.
 
