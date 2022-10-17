@@ -38,7 +38,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
         jdbcInsert.withTableName("board").usingGeneratedKeyColumns("board_no");
 
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("tittle", board.getTittle());
+        parameters.put("title", board.getTittle());
         parameters.put("content", board.getContent());
         parameters.put("name", board.getName());
         parameters.put("is_deleted", "0");
@@ -52,24 +52,24 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public Optional<Board> findById(long id) {
-        List<Board> reuslt = jdbcTemplate.query("select * from board where board_no = ?", boardRowMapper(), id);
+        List<Board> reuslt = jdbcTemplate.query("select * from boardtest where board_no = ?", boardRowMapper(), id);
         return reuslt.stream().findAny();
     }
 
     @Override
     public Optional<Board> findByName(String name) {
-        List<Board> reuslt = jdbcTemplate.query("select * from board where name = ?", boardRowMapper(), name);
+        List<Board> reuslt = jdbcTemplate.query("select * from boardtest where name = ?", boardRowMapper(), name);
         return reuslt.stream().findAny();
     }
 
     @Override
     public List<Board> readAll() {
-        return jdbcTemplate.query("select * from board", boardRowMapper());
+        return jdbcTemplate.query("select * from boardtest", boardRowMapper());
     }
 
     @Override
     public Board update(Long boardId, Board updateParam) {
-        String sql = "update board set tittle=?, content=?, name=?, updated_ts = CURRENT_TIMESTAMP where board_no = ?";
+        String sql = "update boardtest set title=?, content=?, name=?, updated_ts = CURRENT_TIMESTAMP where board_no = ?";
         jdbcTemplate.update(sql,
                 updateParam.getTittle(),
                 updateParam.getContent(),
@@ -81,7 +81,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public Board delete(Long boardId) {
-        String sql = "update board set is_deleted = 1, deleted_ts = CURRENT_TIMESTAMP where board_no = ?";
+        String sql = "update boardtest set is_deleted = 1, deleted_ts = CURRENT_TIMESTAMP where board_no = ?";
         jdbcTemplate.update(sql, boardId);
 
         return null;
@@ -99,7 +99,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
         BeanPropertySqlParameterSource parameterSource = new BeanPropertySqlParameterSource(params);
 
 
-        String sql = "select * from board where is_deleted = 0 ";
+        String sql = "select * from boardtest where is_deleted = 0 ";
 
         //동적쿼리
 //        if(StringUtils.hasText(searchType) || StringUtils.hasText(searchKeyword)) {
@@ -108,7 +108,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
         boolean andFlag = false;
         if("tittle".equals(searchType)) {
-            sql += " and tittle like ? order by board_no desc limit ?, ?";
+            sql += " and title like ? order by board_no desc limit ?, ?";
             System.out.println("tittle에서 sql문 실행 ");
             return jdbcTemplate.query(sql,boardRowMapper(),searchKeyword, params.getPaginationInfo().getFirstRecordIndex(), params.getRecordsPerPage());
         } else if ("content".equals(searchType)) {
@@ -132,7 +132,7 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
             Board board = new Board();
             board.setId(rs.getLong("board_no"));
-            board.setTittle(rs.getString("tittle"));
+            board.setTittle(rs.getString("title"));
             board.setContent(rs.getString("content"));
             board.setName(rs.getString("name"));
             board.setCreated_ts(rs.getString("created_ts"));
@@ -145,6 +145,6 @@ public class JdbcTemplateBoardRepository implements BoardRepository {
 
     @Override
     public int totalCount(Board params) {
-        return jdbcTemplate.queryForObject("select count(*) from board where is_deleted = 0", Integer.class);
+        return jdbcTemplate.queryForObject("select count(*) from boardtest where is_deleted = 0", Integer.class);
     }
 }
