@@ -51,6 +51,8 @@ public class LoginController {
         //세션에 로그인 회원 정보 보관
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
 
+        System.out.println("세션 아이디 " + SessionConst.LOGIN_MEMBER);
+
         return "redirect:/";
     }
 
