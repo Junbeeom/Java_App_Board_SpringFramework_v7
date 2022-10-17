@@ -1,8 +1,10 @@
 package com.example.SpringFramework.board.web.basic;
 
 import com.example.SpringFramework.board.domain.board.Board;
-import com.example.SpringFramework.board.domain.board.BoardUpdate;
-import com.example.SpringFramework.board.domain.paging.Criteria;
+import com.example.SpringFramework.board.domain.board.SearchValue;
+import com.example.SpringFramework.board.domain.board.paging.Criteria;
+import com.example.SpringFramework.board.repository.board.BoardRepository;
+import com.example.SpringFramework.board.repository.board.MemoryBoardRepository2;
 import com.example.SpringFramework.board.service.Board.BoardService;
 import com.example.SpringFramework.board.web.basic.form.BoardCreateForm;
 import com.example.SpringFramework.board.web.basic.form.BoardUpdateForm;
@@ -15,40 +17,57 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.annotation.PostConstruct;
+import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Controller
 @RequestMapping("/basic/boards")
-@RequiredArgsConstructor
+@RequiredArgsConstructor // final붙은 생성자 만들어줌. (각각의 생성자가 하나 일 경우.)
 public class BasicBoardController {
 
     private final BoardService boardService;
 
-    //목록
-    @GetMapping
-    public String boards(Model model) {
-        List<Board> boards = boardService.finAll();
-        model.addAttribute("boards", boards);
-        return "basic/boards";
+    /**
+    private final BoardValidator boardValidator;
+
+    //basicBoardContoller가 호출이 될때 마다 생성된다. 호출되서 검증해준다.
+    @InitBinder
+    public void init(WebDataBinder dataBinder) {
+        dataBinder.addValidators(boardValidator);
     }
+    */
+
 
 //    //목록
 //    @GetMapping
-//    public String boards(@ModelAttribute Board criteria, Model model) {
-//        List<Board> boards = boardService.findAll(criteria);
+//    public String boards(Model model) {
+//        List<Board> boards = boardService.readAll();
 //        model.addAttribute("boards", boards);
-//
 //        return "basic/boards";
 //    }
+//
+    //목록 (페이지 네이션 추가)
+    @GetMapping
+    public String boards(@ModelAttribute("params") Board params, Model model) {
+
+        List<Board> boards = boardService.findAll(params);
+
+        System.out.println("컨트로러에서 실행된 boards의 게시글 총 수 입니다 " + boards.size());
+        model.addAttribute("boards", boards);
+
+        return "basic/boards";
+    }
 
 
 
     //상품 상세
     @GetMapping("/{boardId}")
-    public String board(@PathVariable Long boardNo, Model model) {
-        //Board board = boardService.findByNo(boardNo).get();
-        //model.addAttribute("board", board);
+    public String board(@PathVariable long boardId, Model model) {
+        Board board = boardService.findById(boardId).get();
+        model.addAttribute("board", board);
         return "basic/board";
     }
 
@@ -66,11 +85,11 @@ public class BasicBoardController {
                        Model model) {
 
         Board board = new Board();
-        board.setTitle(boardTittle);
+        board.setTittle(boardTittle);
         board.setContent(boardContent);
         board.setName(boardName);
 
-       // boardService.create(board);
+        boardService.create(board);
 
         //상품을 저장하고 나서 상세 화면을 보여주기 위해서
         //뷰를 직접 만들지 않고 board.html에 다 만들어 놨기 때문에 뿌리기만 하면 됨.
@@ -97,12 +116,12 @@ public class BasicBoardController {
 
         //성공로직
         Board boardParam = new Board();
-        boardParam.setTitle(form.getTittle());
+        boardParam.setTittle(form.getTittle());
         boardParam.setContent(form.getContent());
         boardParam.setName(form.getName());
 
-        //Board createBoard = boardService.create(boardParam);
-        //redirectAttributes.addAttribute("boardId", createBoard.getBoardNo());
+        Board createBoard = boardService.create(boardParam);
+        redirectAttributes.addAttribute("boardId", createBoard.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/basic/boards/{boardId}";
 
@@ -113,18 +132,8 @@ public class BasicBoardController {
     @GetMapping("/{boardId}/edit")
     public String editForm(@PathVariable Long boardId, Model model) {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-
-        //Board board = boardService.findByNo(boardId).get();
-        //model.addAttribute("board", board);
-=======
-=======
->>>>>>> parent of 190f94f (before code review)
         Board board = boardService.findById(boardId).get();
         model.addAttribute("board", board);
->>>>>>> parent of 190f94f (before code review)
         return "basic/editForm";
 
     }
@@ -142,12 +151,12 @@ public class BasicBoardController {
 
         //성공 로직
         Board boardParam = new Board();
-        boardParam.setBoardNo(form.getId());
-        boardParam.setTitle(form.getTittle());
+        boardParam.setId(form.getId());
+        boardParam.setTittle(form.getTittle());
         boardParam.setContent(form.getContent());
         boardParam.setName(form.getName());
 
-        //boardService.update(boardId, boardParam);
+        boardService.update(boardId, boardParam);
 
         return "redirect:/basic/boards/{boardId}";
     }
@@ -157,8 +166,37 @@ public class BasicBoardController {
     public String delete(@PathVariable Long boardId, Model model) {
 
 
-        //boardService.delete(boardId);
+        boardService.delete(boardId);
 
         return "redirect:/basic/boards";
     }
+
+    //검색
+
+    @ModelAttribute("searchValue")
+    public List<SearchValue> searchValues() {
+        List<SearchValue> searchValues = new ArrayList<>();
+        searchValues.add(new SearchValue("title",  "제목"));
+        searchValues.add(new SearchValue("content", "내용"));
+        searchValues.add(new SearchValue("name", "이름"));
+
+        return searchValues;
+    }
+
+
+
+
+
+//    /**
+//     * 테스트용 데이터 추가
+//     */
+//    @PostConstruct
+//    public void init() {
+//        boardService.create(new Board("제목", "내용", "이름",
+//                "없음", "없음", "없음"));
+//        boardService.create(new Board("제목2", "내용2", "이름2",
+//                "없음2", "없음2", "없음2"));
+//    }
+
+
 }

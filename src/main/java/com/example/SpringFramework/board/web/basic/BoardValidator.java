@@ -22,7 +22,7 @@ public class BoardValidator implements Validator {
 
         //
         //검증 로직
-        if(!StringUtils.hasText(board.getTitle())) {
+        if(!StringUtils.hasText(board.getTittle())) {
             errors.rejectValue("tittle", "required");
         }
 

@@ -1,28 +1,24 @@
 package com.example.SpringFramework.board.repository.board;
 
 import com.example.SpringFramework.board.domain.board.Board;
-import com.example.SpringFramework.board.domain.board.BoardList;
-import com.example.SpringFramework.board.domain.paging.Criteria;
+import com.example.SpringFramework.board.domain.board.paging.Criteria;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BoardRepository {
-    // 게시글 생성
-//    Board create(Board board);
+    Board create(Board board);
+    //id로 게시글 찾기
+    Optional<Board> findById(long id);
+    //name로 게시글 찾기
+    Optional<Board> findByName(String name);
+    List<Board> readAll();
 
-    // 조회 및 검색
-    List<Board> findAll(Criteria params);
+    //페이지 네이션이 들어간 조회
+    List<Board> findAll(Board params);
 
-    // 게시글 상세 조회
-    //Optional<Board> findByNo(Long boardNo);
+    int totalCount(Board params);
 
-    // 게시글 전체 개수 조회
-    int totalCount();
-
-    // 게시글 수정
-//    Board update(Long boardId, Board updateParam);
-
-    // 게시글 삭제
-    //Board delete(Long boardId);
+    Board update(Long boardId, Board updateParam);
+    Board delete(Long boardId);
 }

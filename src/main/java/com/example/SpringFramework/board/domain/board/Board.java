@@ -1,42 +1,52 @@
 package com.example.SpringFramework.board.domain.board;
 
-import com.example.SpringFramework.board.domain.paging.Criteria;
+import com.example.SpringFramework.board.domain.common.CommonDTO;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Getter @Setter
-public class Board  {
-    @NotNull
-    private Long boardNo;
-    @NotNull
-    private String title;
-    @NotNull
+@Setter @Getter
+public class Board extends CommonDTO {
+
+    private Long id;
+
+    private String tittle;
+
     private String content;
-    @NotNull
+
     private String name;
-    @NotNull
-    private String createdTs;
-    @NotNull
-    private String updatedTs;
-    @NotNull
-    private String deletedTs;
-    @NotNull
-    private String isDeleted;
+    private String created_ts;
+    private String updated_ts;
+    private String deleted_ts;
+    private String is_deleted;
+
+    private String searchValue;
+
+    /** 조회 수 */
+    private int viewCnt;
+
+    /** 공지 여부 */
+    private String noticeYn;
+
+    /** 비밀 여부 */
+    private String secretYn;
+
+
 
     public Board() {
     }
 
-    public Board(Long boardNo, String title, String content, String name, String createdTs, String updatedTs, String deletedTs, String isDeleted) {
-        this.boardNo = boardNo;
-        this.title = title;
+    public Board(String tittle, String content, String name, String created_ts, String updated_ts, String deleted_ts) {
+        this.tittle = tittle;
         this.content = content;
         this.name = name;
-        this.createdTs = createdTs;
-        this.updatedTs = updatedTs;
-        this.deletedTs = deletedTs;
-        this.isDeleted = isDeleted;
+        this.created_ts = created_ts;
+        this.updated_ts = updated_ts;
+        this.deleted_ts = deleted_ts;
+        this.is_deleted = is_deleted;
     }
 }
-
